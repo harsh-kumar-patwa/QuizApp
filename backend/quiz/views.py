@@ -105,3 +105,17 @@ class QuizDetailView(APIView):
         return Response({'error': 'Quiz not found'}, status=status.HTTP_404_NOT_FOUND)
     
 
+class QuizAttemptView(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def post(self, request, quiz_id):
+        try:
+            quiz = Quiz.objects.get(pk=quiz_id)
+        except:
+            return Response({'error': 'Quiz not found'}, status=status.HTTP_404_NOT_FOUND)
+        
+        quiz_attempt = QuizAttempt.objects.create(user=request.user, quiz=quiz)
+        serializer = QuizAttemptSerializer(quiz_attempt)
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
