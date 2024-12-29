@@ -2,7 +2,7 @@ venv
 quiz_app\__pycache__
 quiz\__pycache__
 __pycache__/
-quiz_app\__pycache__
 *.pyc
 *.pyo
 db.sqlite3
+quiz_app\__pycache__
