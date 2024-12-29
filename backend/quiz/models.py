@@ -6,7 +6,7 @@ class User(AbstractUser):
         ('admin','Admin'),
         ('user','User'),
     )
-    user_types = models.CharField(max_length=5, choices=USER_TYPES, default='user') 
+    user_type = models.CharField(max_length=5, choices=USER_TYPES, default='user') 
 
 class Quiz(models.Model):
     title = models.CharField(max_length=255)
