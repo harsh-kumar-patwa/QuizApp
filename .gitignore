@@ -1,3 +1,8 @@
 venv
-backend\quiz_app\__pycache__
-backend\quiz\__pycache__
+quiz_app\__pycache__
+quiz\__pycache__
+__pycache__/
+quiz_app\__pycache__
+*.pyc
+*.pyo
+db.sqlite3
