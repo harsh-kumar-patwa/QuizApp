@@ -119,3 +119,32 @@ class QuizAttemptView(APIView):
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     
+class QuizSubmitView(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def post(self, request, attempt_id):
+        try:
+            attempt = QuizAttempt.objects.get(pk=attempt_id,user = request.user)
+        except QuizAttempt.DoesNotExist:
+            return Response({'error': 'Quiz attempt not found'}, status=status.HTTP_404_NOT_FOUND)
+        
+        answers = request.data.get('answers', {})
+        correct_count = 0
+        total_questions = attempt.quiz.questions.count()
+
+        for question in attempt.quiz.questions.all():
+            user_answer = answers.get(str(question.id))
+            if user_answer == question.correct_answer:
+                correct_count += 1
+        
+        score = (correct_count / total_questions) * 100 if total_questions > 0 else 0
+
+        attempt.answers = answers
+        attempt.score = score
+        attempt.completed_at = timezone.now()
+        attempt.save()
+
+        serializer = QuizAttemptSerializer(attempt)
+        return Response(serializer.data)
+    
+
