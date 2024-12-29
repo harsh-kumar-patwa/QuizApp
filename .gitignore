@@ -1,1 +1,3 @@
 venv
+backend\quiz_app\__pycache__
+backend\quiz\__pycache__
